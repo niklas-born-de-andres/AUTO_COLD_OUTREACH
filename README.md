@@ -67,13 +67,13 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
 ### 5. Set up Gmail authentication
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com) and create a new project
-2. Enable the **Gmail API** under APIs & Services
-3. Create an **OAuth Client ID** (Desktop app) under Credentials
-   - If prompted, configure the consent screen first  choose **External**
-4. Download the credentials file, rename it to `credentials.json`, and place it in the project root
+Create a Google Cloud project, enable the Gmail API, and generate an OAuth Client ID 
+(Desktop app) from the Credentials page. If prompted, configure the consent screen 
+first and choose External. Download the credentials file, rename it to 
+`credentials.json` and place it in the project root.
 
-On first run a browser window will open for Gmail authentication. A `token.json` file will be saved automatically after that. Do not commit either file.
+On first run a browser window will open to authenticate with Google. A `token.json` 
+file will be saved automatically.
 
 ---
 
@@ -83,8 +83,7 @@ On first run a browser window will open for Gmail authentication. A `token.json`
 uvicorn main:app --reload
 ```
 
-API: `http://127.0.0.1:8000`
-Swagger UI: `http://127.0.0.1:8000/docs`
+If run locally, FastAPI provides an interactive testing UI at `http://127.0.0.1:8000/docs`
 
 ---
 
@@ -132,5 +131,5 @@ curl -X POST http://127.0.0.1:8000/generate-outreach \
 ## Notes
 
 - The first time the API runs, a browser window will open for Gmail authentication. This only happens once  subsequent runs use the saved `token.json`.
-- Research quality depends on the contact's public web presence. For early-stage founders with limited coverage, the system falls back to internal notes for personalization.
+- Research quality depends on the contact's public web presence. For early-stage founders with limited coverage, the system might fall back to internal notes for personalization. This is part;y due to EXA's limitations. Further tools like CALA AI were tested but provided similar results.  
 - All logs are printed to the terminal where uvicorn is running.
