@@ -132,6 +132,6 @@ curl -X POST http://127.0.0.1:8000/generate-outreach \
 ## Next steps
 - Implementing a database with employee and partner details, to be able to detect common contacts, education, former employers, industries etc.
 - Refine email draft prompts to match the exact tone expected
-- The biggest need for expansion is on the research and scraping aspect. Implementing specific research agents or queries for different objectives like shared connections or specifying specific research domains would yield bettr results. Testing which tools yield the best results in different types of research would also improve accuracy.
-- Utilising different tools for multiple searches or building custom sscrapers would allow more targeted searches. Especially for founders with little web presence and earlier stage projects. (E.g. custom tool to analyze linkedIn posts, connections etc.)
+- The biggest need for expansion is on the research and scraping aspect. Implementing specific research agents or queries for different objectives like shared connections or specifying specific research domains would yield bettr results. 
+- Utilising different tools for multiple searches or building custom sscrapers would allow more targeted searches and to test which tools yield the best results in different types of research tasks. This is especially relevant for founders with little web presence and earlier stage projects. (E.g. custom tool to analyze linkedIn posts, connections etc.)
 - Implementing more precise error reporting, especially on the client side
