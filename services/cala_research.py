@@ -1,6 +1,4 @@
-# ResearchService: gathers structured, verified information about a contact using the Cala API.
-# Uses entity lookup for person profile and knowledge search for recent activity and company news.
-# Results are used by the EmailDraftService to personalize the outreach email.
+# Unused die to poor results and timeout errors
 
 import httpx
 import os
@@ -27,8 +25,8 @@ class ResearchService:
             "Content-Type": "application/json"
         }
 
+    # Find entity by name and return the top match
     def _entity_search(self, name: str, entity_type: str = "PERSON") -> dict | None:
-        # Find entity by name and return the top match
         try:
             response = httpx.get(
                 f"{CALA_BASE_URL}/entities",
@@ -45,8 +43,8 @@ class ResearchService:
         except httpx.HTTPStatusError as e:
             raise RuntimeError(f"Cala API error {e.response.status_code} for entity search: {name}")
 
+    # Get full profile for a known entity ID
     def _get_entity(self, entity_id: int) -> dict:
-        # Get full profile for a known entity ID
         try:
             response = httpx.get(
                 f"{CALA_BASE_URL}/entities/{entity_id}",
@@ -61,6 +59,7 @@ class ResearchService:
         except httpx.HTTPStatusError as e:
             raise RuntimeError(f"Cala API error {e.response.status_code} for entity ID: {entity_id}")
 
+    
     def _knowledge_search(self, query: str) -> str:
         try:
             response = httpx.post(
@@ -81,6 +80,7 @@ class ResearchService:
                 return self._knowledge_search(query)
             raise RuntimeError(f"Cala API error {e.response.status_code} for query: {query}")
 
+    
     def research(self, first_name: str, last_name: str, company: str) -> dict:
         full_name = f"{first_name} {last_name}"
         logger.info(f"Researching {full_name} at {company}")
@@ -102,7 +102,7 @@ class ResearchService:
             f"{full_name} {company} recent activity interview publication 2024 2025"
         )
 
-        # Step 3 — Search for company news
+        # Search for company news
         company_context = self._knowledge_search(
             f"{company} {full_name} funding news product launch 2024 2025"
         )
