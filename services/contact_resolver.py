@@ -13,7 +13,7 @@ class ContactResolver:
         self.team_members = self._load_csv("data/team.csv")
 
     def _load_csv(self, filepath: str) -> list:
-        #csv saved with UTF8
+        #csv saved with UTF8 (xlxs conversion)
         with open(filepath, newline="", encoding="utf-8-sig") as f:
             return list(csv.DictReader(f, delimiter=";"))
 

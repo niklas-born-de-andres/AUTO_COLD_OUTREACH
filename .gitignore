@@ -1,0 +1,24 @@
+# Environment variables
+.env
+
+# Google OAuth credentials
+credentials.json
+token.json
+
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Test scripts
+zzz_*.py
+
+# Output files
+last_output.txt
+
+# OS files
+.DS_Store
+Thumbs.db
