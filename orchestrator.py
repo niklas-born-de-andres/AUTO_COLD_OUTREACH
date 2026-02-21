@@ -9,6 +9,7 @@ from services.research import ResearchService
 from services.email_drafter import EmailDraftService
 from services.email_delivery import EmailDeliveryService
 from models import OutreachRequest, OutreachResponse
+from services.connection_strategy import ConnectionStrategyService
 from services.research_validator import ResearchValidatorService
 
 logger = logging.getLogger(__name__)
@@ -19,12 +20,14 @@ class OutreachOrchestrator:
         self.researcher = ResearchService()
         self.validator = ResearchValidatorService()
         self.drafter = EmailDraftService()
+        self.strategy = ConnectionStrategyService()
         self.gmail = EmailDeliveryService()
 
     async def run(self, request: OutreachRequest) -> OutreachResponse:
         # Validate contact and team member exist
         contact = self.resolver.get_contact(request.first_name, request.last_name)
         team_member = self.resolver.get_team_member(request.team_member)
+        logger.info(f"Resolved contact: {contact['first_name']} {contact['last_name']}")
 
         #  Research the contact 
         raw_research = await asyncio.to_thread(
@@ -50,6 +53,19 @@ class OutreachOrchestrator:
             team_member=team_member
         )
 
+        #Connection strategy. Can fail without blocking the flow
+        strategy = None
+        try:
+            strategy = await asyncio.to_thread(
+                self.strategy.generate,
+                contact=contact,
+                research=validated_research,
+                team_member=team_member
+            )
+        except Exception as e:
+            logger.warning(f"Connection strategy failed — sending outreach only: {e}")
+
+
         # Deliver to team member's inbox 
         delivery = await asyncio.to_thread(
             self.gmail.send,
@@ -57,6 +73,18 @@ class OutreachOrchestrator:
             subject=draft["subject"],
             body=draft["body"]
         )
+
+        if strategy:
+            try:
+                await asyncio.to_thread(
+                    self.gmail.send,
+                    to_email=team_member["email"],
+                    subject=strategy["subject"],
+                    body=strategy["body"]
+                )
+            except Exception as e:
+                logger.warning(f"Strategy email delivery failed: {e}")
+
 
         # Return confirmation
         return OutreachResponse(

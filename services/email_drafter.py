@@ -73,6 +73,7 @@ class EmailDraftService:
           and do not evaluate it (no productive, impressive etc comments).
          Avoid sentences like "that's a meaningful milestone", state the fact and move on
         - Generic subject lines that just combine two company names. the subject should be specific and give the recipient a reason to open the email
+        - Specific mentions of monitary values like fund sizes (mention the round not the amount) 
         - Vague closing sentences like "explore whether there's a conversation worth having"
 
 
