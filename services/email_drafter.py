@@ -62,6 +62,7 @@ class EmailDraftService:
         - Warm but not informal
 
         AVOID:
+        - Explaining the company to the founder, instead say why I (the team member) find it intresting
         - only reference specific facts if applicable, absolutely no halucinations
         - do not add or infer investment stages not explicitly mentioned
         - Em dashes or other symbols anywhere in the email including the subject line
