@@ -93,7 +93,7 @@ If run locally, FastAPI provides an interactive testing UI at `http://127.0.0.1:
 ---
 
 ## Usage
-
+Once running send requests to the API with the following schema:
 ```bash
 curl -X POST http://127.0.0.1:8000/generate-outreach \
   -H "Content-Type: application/json" \
