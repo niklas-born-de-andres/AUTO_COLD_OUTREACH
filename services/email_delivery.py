@@ -47,4 +47,6 @@ class EmailDeliveryService:
             body={"raw": encoded}
         ).execute()
 
-        return {"message_id": result["id"], "status": "delivered"}
+        status = "delivered" if result.get("labelIds") and "SENT" in result["labelIds"] else "failed"
+
+        return {"message_id": result["id"], "status": status}
